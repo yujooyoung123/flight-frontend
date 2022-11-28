@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+    <h1>Dalta Landlines Route Finder</h1>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <mat-card-title>Flight Input</mat-card-title>
+        <mat-card-header class="input-header">Please put in your flight information:</mat-card-header>
+
+        <mat-form-field class="flight-input">
+            <input matInput id="station" name="station" placeholder="Station" [(ngModel)]="station">
+        </mat-form-field>
+
+        <mat-radio-group class="radio-group" [(ngModel)]="requestType">
+            <mat-radio-button value="origin">Origin</mat-radio-button>
+            <mat-radio-button value="destination">Destination</mat-radio-button>
+        </mat-radio-group>
+
+        <button mat-button class="submit-button" (click)="getFlights()" clickable>Submit</button>
+
+    </mat-card-content>
+</mat-card> 
+
+<!-- <mat-card>
+    <mat-card-content>
+
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="origin">
+                <mat-header-cell *matHeaderCellDef> Origin </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.origin}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="destination">
+                <mat-header-cell *matHeaderCellDef> Destination </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.destination}} </mat-cell>
+            </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </mat-table>
+
+    </mat-card-content>
+</mat-card> -->
