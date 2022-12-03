@@ -21,23 +21,30 @@
     </mat-card-content>
 </mat-card> 
 
-<!-- <mat-card>
+<mat-card *ngIf="showTable">
     <mat-card-content>
 
-        <mat-table #table [dataSource]="dataSource">
+        <mat-table [dataSource]="originArray" class="origin-table">
             <ng-container matColumnDef="origin">
                 <mat-header-cell *matHeaderCellDef> Origin </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.origin}} </mat-cell>
+                <mat-cell *matCellDef="let index"> {{originArray[index]}} </mat-cell>
             </ng-container>
 
+            <tr mat-header-row *matHeaderRowDef="originColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: originColumn;"></tr>
+
+        
+        </mat-table>
+
+        <mat-table [dataSource]="dataSource.destination" class="destination-table">
             <ng-container matColumnDef="destination">
                 <mat-header-cell *matHeaderCellDef> Destination </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.destination}} </mat-cell>
             </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="destinationColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: destinationColumn;"></tr>
         </mat-table>
 
     </mat-card-content>
-</mat-card> -->
+</mat-card>

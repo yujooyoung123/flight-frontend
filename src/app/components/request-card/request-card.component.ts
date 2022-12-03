@@ -19,6 +19,9 @@ export class RequestCardComponent {
     data: any;
     dataSource: any;
     showTable: boolean = false;
+    originArray: any;
+    destinationArray: any;
+    
 
     constructor (private service: ApiService) {}
 
@@ -37,8 +40,13 @@ export class RequestCardComponent {
         }
 
         this.dataSource = tableData
-        console.log(this.dataSource[origin])
-        this.showTable = true
+
+        this.originArray = [tableData.origin]
+        this.destinationArray = [tableData.destination]
+
+        console.log(this.originArray)
+
+        return this.enableTable()
       })
     };
 
@@ -50,10 +58,15 @@ export class RequestCardComponent {
       });
     }
 
-    displayedColumns: string[] = ['origin', 'destination']
+    enableTable() {
+      this.showTable = true
+    }
+
+    originColumn: string[] = ['origin'];
+    destinationColumn : string[] = ['destination']
 
 
-    // TODO: move to unit testing
+    // TODO: move to unit testing and add native input
     // // getParameters() {
     // //   let station = this.station
     // //   let requestType = this.requestType
