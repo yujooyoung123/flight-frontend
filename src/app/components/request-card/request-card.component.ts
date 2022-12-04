@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api-service.service';
 
-interface tableData {
-  'origin': Array<any>;
-  'destination': Array<any>;
+export interface routeData {
+  origin: string;
+  destination: string;
 }
 
 @Component({
@@ -19,9 +19,6 @@ export class RequestCardComponent {
     data: any;
     dataSource: any;
     showTable: boolean = false;
-    originArray: any;
-    destinationArray: any;
-    
 
     constructor (private service: ApiService) {}
 
@@ -31,22 +28,15 @@ export class RequestCardComponent {
       this.service.flightData(this.station, this.requestType)
       .subscribe((response) => {
         this.data = response;
+        let jsonData = JSON.parse(this.data);
 
-        let jsonData = JSON.parse(this.data)
+        let dataSource: routeData[] = jsonData;
 
-        let tableData: tableData = {
-          'origin': jsonData['origin'],
-          'destination': jsonData['destination']
-        }
+        this.dataSource = dataSource;
 
-        this.dataSource = tableData
+        console.log(this.dataSource);
 
-        this.originArray = [tableData.origin]
-        this.destinationArray = [tableData.destination]
-
-        console.log(this.originArray)
-
-        return this.enableTable()
+        return this.enableTable();
       })
     };
 
@@ -56,14 +46,13 @@ export class RequestCardComponent {
         this.data = response;
         console.log(this.data)
       });
-    }
+    };
 
     enableTable() {
-      this.showTable = true
+      this.showTable = true;
     }
 
-    originColumn: string[] = ['origin'];
-    destinationColumn : string[] = ['destination']
+ displayedColumns: string[] = ['origin', 'destination']
 
 
     // TODO: move to unit testing and add native input

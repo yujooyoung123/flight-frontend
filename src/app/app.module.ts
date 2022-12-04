@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 import { RequestCardComponent } from './components/request-card/request-card.component';
 
@@ -41,9 +42,7 @@ import { RequestCardComponent } from './components/request-card/request-card.com
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
-    
-
-
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
