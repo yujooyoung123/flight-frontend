@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-// import { map } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Injectable({
@@ -13,14 +14,15 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
+  options = []
+
   autosuggestData() {
     
-    return this.httpClient.get(this.autosuggestURL)
-    .pipe(
-      map((response:[]) => response.map(
-        item => item['origin']
-      ))
-    )
+    return this.options.length
+    ? of(this.options)
+    : this.httpClient
+    .get<any>(this.autosuggestURL)
+    .pipe(tap(data => (this.options = data['origin'])));
   }
 
   flightData(station: string, requestType: string) {

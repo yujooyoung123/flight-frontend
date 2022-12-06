@@ -9,10 +9,10 @@
 
         <mat-form-field class="flight-input">
             <input type="text" matInput id="station" name="station" placeholder="Station"
-            [matAutocomplete]="auto" [(ngModel)]="station" [ngModelOptions]="{standalone: true}">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let element of autoSuggestOptions">
-                    {{element}}
+            [matAutocomplete]="auto" [(ngModel)]="station">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayInput">
+                <mat-option *ngFor="let element of autoSuggestOptions" [value]="element.origin">
+                    {{element.origin}}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>

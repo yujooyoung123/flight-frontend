@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ApiService } from 'src/app/services/api-service.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface routeData {
   origin: string;
@@ -21,13 +24,14 @@ export class RequestCardComponent implements OnInit{
     dataSource: any;
     showTable: boolean = false;
     autoSuggestData: any;
-    autoSuggestOptions: [];
+    autoSuggestOptions: any;
 
-    constructor (private service: ApiService, private formBuilder: FormBuilder) {}
+    constructor (private service: ApiService) {}
 
-        ngOnInit() {
-          this.getData()
+    ngOnInit() {
+          this.getData();
       }
+    
 
     getFlights() {
       this.station = this.station.toUpperCase();
@@ -50,12 +54,18 @@ export class RequestCardComponent implements OnInit{
     getData() {
       this.service.autosuggestData()
       .subscribe((response) => {
-        this.autoSuggestData = response
+        this.autoSuggestOptions = JSON.parse(response.replace(/\bNaN\b/g, "null"))
+
       });
+
     };
 
     enableTable() {
       this.showTable = true;
+    }
+
+    displayInput(input: any) {
+      return input ? input.origin : undefined;
     }
 
  displayedColumns: string[] = ['origin', 'destination']
