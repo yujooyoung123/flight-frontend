@@ -8,16 +8,22 @@
         <mat-card-header class="input-header">Please put in your flight information:</mat-card-header>
 
         <mat-form-field class="flight-input">
-            <input matInput id="station" name="station" placeholder="Station" [(ngModel)]="station">
+            <input type="text" matInput id="station" name="station" placeholder="Station"
+            [matAutocomplete]="auto" [(ngModel)]="station" [ngModelOptions]="{standalone: true}">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let element of autoSuggestOptions">
+                    {{element}}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
 
-        <mat-radio-group class="radio-group" [(ngModel)]="requestType">
+        <mat-radio-group class="radio-group" name="radio-group" [(ngModel)]="requestType">
             <mat-radio-button value="origin">Origin</mat-radio-button>
             <mat-radio-button value="destination">Destination</mat-radio-button>
         </mat-radio-group>
 
         <button mat-button class="submit-button" (click)="getFlights()" clickable>Submit</button>
-
+    
     </mat-card-content>
 </mat-card> 
 

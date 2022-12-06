@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/services/api-service.service';
 
 export interface routeData {
@@ -12,23 +13,29 @@ export interface routeData {
   styleUrls: ['./request-card.component.scss']
 })
 
-export class RequestCardComponent {
+export class RequestCardComponent implements OnInit{
 
     station: any;
     requestType: any;
-    data: any;
+    flightData: any;
     dataSource: any;
     showTable: boolean = false;
+    autoSuggestData: any;
+    autoSuggestOptions: [];
 
-    constructor (private service: ApiService) {}
+    constructor (private service: ApiService, private formBuilder: FormBuilder) {}
+
+        ngOnInit() {
+          this.getData()
+      }
 
     getFlights() {
       this.station = this.station.toUpperCase();
 
       this.service.flightData(this.station, this.requestType)
       .subscribe((response) => {
-        this.data = response;
-        let jsonData = JSON.parse(this.data);
+        this.flightData = response;
+        let jsonData = JSON.parse(this.flightData);
 
         let dataSource: routeData[] = jsonData;
 
@@ -43,8 +50,7 @@ export class RequestCardComponent {
     getData() {
       this.service.autosuggestData()
       .subscribe((response) => {
-        this.data = response;
-        console.log(this.data)
+        this.autoSuggestData = response
       });
     };
 
