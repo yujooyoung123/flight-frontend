@@ -22,7 +22,7 @@ export class ApiService {
     ? of(this.options)
     : this.httpClient
     .get<any>(this.autosuggestURL)
-    .pipe(tap(data => (this.options = data['origin'])));
+    .pipe(tap(data => (this.options = data)));
   }
 
   flightData(station: string, requestType: string) {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
 import { ApiService } from 'src/app/services/api-service.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -23,18 +22,27 @@ export class RequestCardComponent implements OnInit{
     flightData: any;
     dataSource: any;
     showTable: boolean = false;
-    autoSuggestData: any;
+    options: any;
     autoSuggestOptions: any;
+
+    formControl = new FormControl();
+    filteredOptions: Observable<string[]>;
 
     constructor (private service: ApiService) {}
 
     ngOnInit() {
           this.getData();
+          this.filteredOptions = this.formControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
       }
     
 
     getFlights() {
+      if (this.station.length == 3) {
       this.station = this.station.toUpperCase();
+      };
 
       this.service.flightData(this.station, this.requestType)
       .subscribe((response) => {
@@ -54,7 +62,7 @@ export class RequestCardComponent implements OnInit{
     getData() {
       this.service.autosuggestData()
       .subscribe((response) => {
-        this.autoSuggestOptions = JSON.parse(response.replace(/\bNaN\b/g, "null"))
+        this.autoSuggestOptions = JSON.parse(response.replace(/\bNaN\b/g, "null"));
 
       });
 
@@ -64,11 +72,14 @@ export class RequestCardComponent implements OnInit{
       this.showTable = true;
     }
 
-    displayInput(input: any) {
-      return input ? input.origin : undefined;
+    private _filter(value: string): string[] {
+      let filterValue = value.toLowerCase();
+      if(!this.autoSuggestOptions) return this.autoSuggestOptions;
+      return this.autoSuggestOptions.filter((option:any) =>
+        option.toLowerCase().includes(filterValue));
     }
 
- displayedColumns: string[] = ['origin', 'destination']
+ displayedColumns: string[] = ['origin', 'destination'];
 
 
     // TODO: move to unit testing and add native input
